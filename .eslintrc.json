@@ -1,0 +1,52 @@
+{
+    "env": {
+      "node": true
+    },
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "extends": [
+      "eslint:recommended",
+      "@serverless/eslint-config/node",
+      "plugin:@typescript-eslint/eslint-recommended"
+    ],
+    "plugins": ["prettier", "@typescript-eslint"],
+    "settings": {
+      "node": {
+        "extensions": [".js", ".ts", ".d.ts"]
+      },
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".ts", ".d.ts"]
+        }
+      },
+      "import/core-modules": ["express"]
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
+      "camelcase": 0,
+      "no-console": 0,
+      "semi": 0,
+      "no-var": "error",
+      "curly": ["error", "multi-line"],
+      "prettier/prettier": ["error"],
+      "prefer-const": "warn",
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "^_",
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "import/prefer-default-export": "off"
+    }
+  }
+  

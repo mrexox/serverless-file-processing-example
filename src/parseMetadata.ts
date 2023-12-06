@@ -1,22 +1,23 @@
-import { Sentry } from './lib/sentry'
+import { Request, Response } from 'express';
 
-import { Request, Response } from 'express'
+import { Sentry } from './lib/sentry';
 
 interface HttpFunction {
-  (request: Request, response: Response): Promise<void>
+  // eslint-disable-next-line no-unused-vars
+  (request: Request, response: Response): Promise<void>;
 }
 
 export const parseMetadata: HttpFunction = Sentry.GCPFunction.wrapHttpFunction(
   async (request, response) => {
-    Sentry.setTag('functionName', 'parseMetadata')
+    Sentry.setTag('functionName', 'parseMetadata');
 
-    const { name } = request.body
-    console.log('Parsing metadata:', name)
+    const { name } = request.body;
+    console.log('Parsing metadata:', name);
 
     // ...
 
-    response.status(200).send({ status: 'OK' })
+    response.status(200).send({ status: 'OK' });
 
-    return Promise.resolve()
+    return Promise.resolve();
   }
-)
+);

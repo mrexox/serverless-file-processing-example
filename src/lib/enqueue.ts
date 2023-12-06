@@ -1,19 +1,14 @@
-import { CloudTasksClient } from '@google-cloud/tasks'
+import { CloudTasksClient } from '@google-cloud/tasks';
 
-import {
-  googleCloudProps,
-  googleCloudEmail,
-  projectId,
-} from './credentials'
+import { googleCloudProps, googleCloudEmail, projectId } from './credentials';
 
-const client = new CloudTasksClient(googleCloudProps)
-const STAGE = process.env.STAGE as string
-const PROJECT_ID = process.env.PROJECT_ID as string
-const QUEUE_NAME = 'rate-limited-fileops'
-const REGION = process.env.REGION as string
-const QUEUE = client.queuePath(projectId, REGION, QUEUE_NAME)
-const CLOUD_FUNCTIONS_URL =
-  `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${process.env.APP}-${STAGE}-`
+const client = new CloudTasksClient(googleCloudProps);
+const STAGE = process.env.STAGE as string;
+const PROJECT_ID = process.env.PROJECT_ID as string;
+const QUEUE_NAME = 'rate-limited-fileops';
+const REGION = process.env.REGION as string;
+const QUEUE = client.queuePath(projectId, REGION, QUEUE_NAME);
+const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${process.env.APP}-${STAGE}-`;
 
 export function enqueue(functionName: string, args: any) {
   const message = {
@@ -28,7 +23,7 @@ export function enqueue(functionName: string, args: any) {
       },
       body: Buffer.from(JSON.stringify(args)).toString('base64'),
     },
-  }
+  };
 
-  return client.createTask({ parent: QUEUE, task: message })
+  return client.createTask({ parent: QUEUE, task: message });
 }
