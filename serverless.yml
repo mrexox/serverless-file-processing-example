@@ -1,0 +1,46 @@
+service: serverless-app-example
+useDotenv: true
+frameworkVersion: "3"
+
+plugins:
+  - serverless-google-cloudfunctions
+  - serverless-plugin-typescript
+
+provider:
+  name: google
+  runtime: nodejs18.x
+  region: us-central1
+  project: serverless-app-example
+  credentials: ${env:GCLOUD_CREDENTIALS}
+  environment:
+    STAGE: ${opt:stage}
+    PROJECT_ID: ${self:provider.project}
+    REGION: ${self:provider.region}
+    SENTRY_DSN: ${env:SENTRY_DSN}
+
+# Include only the built code
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!.gitignore'
+    - '!.git/**'
+
+functions:
+  # Event-triggered function. Limits are provided for safety.
+  # The resource bucket must be already created.
+  process_file:
+    handler: processFile
+    memorySize: 2048
+    timeout: 120s
+    events:
+      - event:
+          eventType: google.storage.object.finalize
+          resource: projects/${self:provider.project}/buckets/${env:BUCKET}
+
+  # HTTP request-triggered function
+  parse_metadata:
+    handler: parseMetadata
+    memorySize: 512
+    timeout: 120s
+    events:
+      - http: parse_metadata

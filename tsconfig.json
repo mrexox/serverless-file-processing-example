@@ -1,0 +1,18 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "outDir": ".build",
+    "rootDir": "./",
+    "sourceMap": true,
+    "allowJs": true,
+    "strictNullChecks": true,
+    "preserveConstEnums": true,
+    "useUnknownInCatchVariables": false,
+    "typeRoots": [
+      "node_modules/@types",
+    ]
+  },
+  "exclude": ["node_modules", "spec", "*.js"]
+}
+
