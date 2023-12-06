@@ -1,4 +1,4 @@
-service: serverless-app-example
+service: ${env:APP}
 useDotenv: true
 frameworkVersion: "3"
 
@@ -10,7 +10,7 @@ provider:
   name: google
   runtime: nodejs18.x
   region: us-central1
-  project: serverless-app-example
+  project: ${env:PROJECT_ID}
   credentials: ${env:GCLOUD_CREDENTIALS}
   environment:
     STAGE: ${opt:stage}

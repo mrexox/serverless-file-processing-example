@@ -13,7 +13,7 @@ const QUEUE_NAME = 'rate-limited-fileops'
 const REGION = process.env.REGION as string
 const QUEUE = client.queuePath(projectId, REGION, QUEUE_NAME)
 const CLOUD_FUNCTIONS_URL =
-  `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/serverless-app-example-${STAGE}-`
+  `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${process.env.APP}-${STAGE}-`
 
 export function enqueue(functionName: string, args: any) {
   const message = {

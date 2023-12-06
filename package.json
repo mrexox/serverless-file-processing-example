@@ -1,5 +1,5 @@
 {
-  "name": "serverless-example",
+  "name": "file-processing-app-example",
   "version": "0.1.0",
   "description": "Google Cloud Functions example by Serverless framework with Typescript",
   "main": "index.js",
