@@ -11,7 +11,7 @@ interface EventFunction {
  *
  * @param {Record} data
  * @param {string} data.name - GCS ID
- * @param {Context} context - Not used yet
+ * @param {Context} context
  * @param {Function} callback
  */
 export const processFile: EventFunction = Sentry.GCPFunction.wrapEventFunction(
