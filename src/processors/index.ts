@@ -66,10 +66,12 @@ export async function call({ name, processors, tag }: ProcessorOptions): Promise
 }
 
 /**
- * Retrieves the file object from GCS.
+ * Retrieves the file object from GCS. Automatically assigns ContentType and
+ * extension to file's metadata.
  *
  * @param {string} name - GCS ID
- * @param {string} options.bucket - GCS bucket name
+ * @param options
+ * @param {string} options.bucket - An optional GCS bucket name, defaults to process.env.BUCKET
  * @returns {Promise<StorageFile>}
  */
 async function fileFromGCS(name: string, { bucket = BUCKET } = {}): Promise<StorageFile> {
