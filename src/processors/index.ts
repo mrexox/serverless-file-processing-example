@@ -4,8 +4,8 @@ import { Firestore } from '@google-cloud/firestore';
 
 import { ProcessorFunc, StorageFile } from './types';
 import { projectId, googleCloudProps } from '../lib/credentials';
+import { BUCKET, FIRESTORE_DATABASE, STAGE } from '../lib/config';
 
-const BUCKET = process.env.BUCKET || '';
 const googleCloudStorage = new Storage(googleCloudProps);
 const firestore = new Firestore({
   projectId,
@@ -13,7 +13,7 @@ const firestore = new Firestore({
   ignoreUndefinedProperties: true,
   ...googleCloudProps,
 });
-const collection = firestore.collection(`file-processing-results-${process.env.STAGE}`);
+const collection = firestore.collection(FIRESTORE_DATABASE);
 
 export { metadataParser } from './metadataParser';
 
@@ -56,7 +56,7 @@ export async function call({ name, processors, tag }: ProcessorOptions): Promise
     tag,
     name,
     createdAt: Date.now(),
-    environment: process.env.STAGE,
+    environment: STAGE,
     attributes,
   });
 
@@ -71,7 +71,7 @@ export async function call({ name, processors, tag }: ProcessorOptions): Promise
  *
  * @param {string} name - GCS ID
  * @param options
- * @param {string} options.bucket - An optional GCS bucket name, defaults to process.env.BUCKET
+ * @param {string} options.bucket - An optional GCS bucket name, defaults to ENV[BUCKET]
  * @returns {Promise<StorageFile>}
  */
 async function fileFromGCS(name: string, { bucket = BUCKET } = {}): Promise<StorageFile> {

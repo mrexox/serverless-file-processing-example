@@ -14,6 +14,7 @@ export interface StorageFile {
   getSignedUrl(cfg: GetSignedUrlConfig): Promise<GetSignedUrlResponse>;
   createReadStream(options?: CreateReadStreamOptions): Readable;
 }
+
 export interface ProcessorFunc {
   (file: StorageFile): Promise<any>;
 }

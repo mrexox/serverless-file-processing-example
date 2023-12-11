@@ -1,15 +1,17 @@
 import { CloudTasksClient } from '@google-cloud/tasks';
 
 import { googleCloudProps, googleCloudEmail, projectId } from './credentials';
+import { FIRESTORE_DATABASE, REGION, PROJECT_ID, APP } from './config';
 
 const client = new CloudTasksClient(googleCloudProps);
-const STAGE = process.env.STAGE as string;
-const PROJECT_ID = process.env.PROJECT_ID as string;
-const QUEUE_NAME = 'rate-limited-fileops';
-const REGION = process.env.REGION as string;
-const QUEUE = client.queuePath(projectId, REGION, QUEUE_NAME);
-const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${process.env.APP}-${STAGE}-`;
+const QUEUE = client.queuePath(projectId, REGION, FIRESTORE_DATABASE);
+const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${APP}-`;
 
+/**
+ * Enqueue a function call to Google Cloud Tasks service. This allows to run
+ * some functions asynchronously. Google Cloud Tasks makes sure those functions
+ * are executed.
+ */
 export function enqueue(functionName: string, args: any) {
   const message = {
     httpRequest: {
