@@ -3,9 +3,12 @@ pre-commit:
   commands:
     lint:
       glob: "*.{js,ts}"
-      run: yarn eslint --fix {staged_files} 
+      run: yarn eslint --fix {staged_files}
       stage_fixed: true
     format:
       glob: "*.{js,ts}"
-      run: yarn format {staged_files} 
+      run: yarn format {staged_files}
       stage_fixed: true
+    typos:
+      glob: "*.{ts,md,js,yml,json}"
+      run: typos --write-changes {staged_files}
