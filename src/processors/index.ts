@@ -1,17 +1,14 @@
 import { Storage } from '@google-cloud/storage';
-import { fileTypeFromStream } from 'file-type';
 import { Firestore } from '@google-cloud/firestore';
 
 import { ProcessorFunc, StorageFile } from './types';
-import { projectId, googleCloudProps } from '../lib/credentials';
-import { BUCKET, FIRESTORE_DATABASE, STAGE } from '../lib/config';
+import { PROJECT_ID, BUCKET, FIRESTORE_DATABASE, STAGE } from '../lib/config';
 
-const googleCloudStorage = new Storage(googleCloudProps);
+const googleCloudStorage = new Storage();
 const firestore = new Firestore({
-  projectId,
+  projectId: PROJECT_ID,
   timestampsInSnapshots: true,
   ignoreUndefinedProperties: true,
-  ...googleCloudProps,
 });
 const collection = firestore.collection(FIRESTORE_DATABASE);
 
@@ -86,7 +83,7 @@ async function fileFromGCS(name: string, { bucket = BUCKET } = {}): Promise<Stor
     return file;
   }
 
-  const determined = await fileTypeFromStream(file.createReadStream());
+  const determined = await (await import('file-type')).fileTypeFromStream(file.createReadStream());
   if (!determined || !determined.mime) {
     return file;
   }

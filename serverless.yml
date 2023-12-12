@@ -13,12 +13,15 @@ provider:
   project: ${env:PROJECT_ID}
   credentials: ${env:GCLOUD_CREDENTIALS}
   environment:
-    STAGE: ${opt:stage}
+    APP: ${env:APP}
+    BUCKET: ${env:BUCKET}
+    FIRESTORE_DATABASE: ${env:FIRESTORE_DATABASE}
+    GCLOUD_SERVICE_ACCOUNT_EMAIL: ${env:GCLOUD_SERVICE_ACCOUNT_EMAIL}
+    GCLOUD_TASKS_QUEUE: ${env:GCLOUD_TASKS_QUEUE}
     PROJECT_ID: ${self:provider.project}
     REGION: ${self:provider.region}
     SENTRY_DSN: ${env:SENTRY_DSN}
-    FIRESTORE_DATABASE: ${env:FIRESTORE_DATABASE}
-    APP: ${env:APP}
+    STAGE: ${opt:stage}
 
 # Include only the built code
 package:
@@ -32,8 +35,6 @@ functions:
   # The resource bucket must be already created.
   process_file:
     handler: processFile
-    memorySize: 2048
-    timeout: 120s
     events:
       - event:
           eventType: google.storage.object.finalize
@@ -42,7 +43,5 @@ functions:
   # HTTP request-triggered function
   parse_metadata:
     handler: parseMetadata
-    memorySize: 512
-    timeout: 120s
     events:
       - http: parse_metadata

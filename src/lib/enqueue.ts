@@ -1,11 +1,17 @@
 import { CloudTasksClient } from '@google-cloud/tasks';
 
-import { googleCloudProps, googleCloudEmail, projectId } from './credentials';
-import { FIRESTORE_DATABASE, REGION, PROJECT_ID, APP } from './config';
+import {
+  APP,
+  GCLOUD_SERVICE_ACCOUNT_EMAIL,
+  GCLOUD_TASKS_QUEUE,
+  PROJECT_ID,
+  REGION,
+  STAGE,
+} from './config';
 
-const client = new CloudTasksClient(googleCloudProps);
-const QUEUE = client.queuePath(projectId, REGION, FIRESTORE_DATABASE);
-const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${APP}-`;
+const client = new CloudTasksClient();
+const QUEUE = client.queuePath(PROJECT_ID as string, REGION, GCLOUD_TASKS_QUEUE);
+const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/${APP}-${STAGE}-`;
 
 /**
  * Enqueue a function call to Google Cloud Tasks service. This allows to run
@@ -13,12 +19,14 @@ const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/
  * are executed.
  */
 export function enqueue(functionName: string, args: any) {
+  const url = CLOUD_FUNCTIONS_URL + functionName;
+
   const message = {
     httpRequest: {
       httpMethod: 1, // "POST"
-      url: CLOUD_FUNCTIONS_URL + functionName,
+      url,
       oidcToken: {
-        serviceAccountEmail: googleCloudEmail,
+        serviceAccountEmail: GCLOUD_SERVICE_ACCOUNT_EMAIL,
       },
       headers: {
         'Content-Type': 'application/json',
@@ -26,6 +34,8 @@ export function enqueue(functionName: string, args: any) {
       body: Buffer.from(JSON.stringify(args)).toString('base64'),
     },
   };
+
+  console.log('Enqueue', url, 'to', QUEUE);
 
   return client.createTask({ parent: QUEUE, task: message });
 }

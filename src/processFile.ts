@@ -21,7 +21,7 @@ export const processFile: EventFunction = Sentry.GCPFunction.wrapEventFunction(
     const { name } = data;
     console.log('Handling new file:', name);
 
-    await enqueue('process_metadata', { name });
+    await enqueue('parse_metadata', { name });
 
     callback(); // success
   }
