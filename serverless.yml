@@ -17,6 +17,8 @@ provider:
     PROJECT_ID: ${self:provider.project}
     REGION: ${self:provider.region}
     SENTRY_DSN: ${env:SENTRY_DSN}
+    FIREBASE_DATABASE: ${env:FIREBASE_DATABASE}
+    APP: ${env:APP}
 
 # Include only the built code
 package:
