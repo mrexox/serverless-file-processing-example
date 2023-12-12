@@ -1,5 +1,6 @@
 node_modules/
 .build/
+.serverless/
 .env
 .gcloud/
 !.gcloud/README.md

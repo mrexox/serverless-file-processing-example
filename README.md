@@ -17,3 +17,4 @@ yarn install
 1. Enable **Google Task API**
 1. Create a Google Cloud Storage bucket. Put its name to the `BUCKET` env variable
 1. Create a Firestore database and put its name to `FIRESTORE_DATABASE` env variable
+1. Enable **Cloud Deployment Manager V2 API**
