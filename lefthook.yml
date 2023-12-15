@@ -12,3 +12,4 @@ pre-commit:
     typos:
       glob: "*.{ts,md,js,yml,json}"
       run: typos --write-changes {staged_files}
+      stage_fixed: true
