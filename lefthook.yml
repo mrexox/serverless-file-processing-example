@@ -1,6 +1,9 @@
 pre-commit:
   parallel: true
   commands:
+    test:
+      glob: "*.ts"
+      run: yarn test
     lint:
       glob: "*.{js,ts}"
       run: yarn eslint --fix {staged_files}
