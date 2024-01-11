@@ -18,7 +18,7 @@ const CLOUD_FUNCTIONS_URL = `https://${REGION}-${PROJECT_ID}.cloudfunctions.net/
  * some functions asynchronously. Google Cloud Tasks makes sure those functions
  * are executed.
  */
-export default function enqueue(functionName: string, args: any) {
+export function enqueue(functionName: string, args: any) {
   const url = CLOUD_FUNCTIONS_URL + functionName;
 
   const message = {

@@ -1,5 +1,5 @@
 import { Sentry } from './lib/sentry';
-import enqueue from './lib/enqueue';
+import { enqueue } from './lib/enqueue';
 
 interface EventFunction {
   // eslint-disable-next-line no-unused-vars
