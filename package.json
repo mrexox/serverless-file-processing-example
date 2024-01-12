@@ -8,7 +8,7 @@
     "gcp-build": "",
     "types": "tsc --noEmit",
     "clean": "rm -rf .build/",
-    "test": "jest",
+    "test": "PROJECT_ID=test jest",
     "lint": "eslint . --fix",
     "format": "prettier-eslint $PWD\"/src/**/*.{js,ts}\" --write",
     "deploy": "serverless deploy --stage production"
