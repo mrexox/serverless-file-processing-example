@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  primary:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: lint
+        run: yarn lint
+
+      - name: check TypeScript
+        run: yarn types
+
+      - name: test
+        run: yarn test --ci
