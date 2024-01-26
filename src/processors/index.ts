@@ -1,16 +1,10 @@
 import { Storage } from '@google-cloud/storage';
-import { Firestore } from '@google-cloud/firestore';
 
 import { ProcessorFunc, StorageFile } from './types';
-import { PROJECT_ID, BUCKET, FIRESTORE_COLLECTION, STAGE } from '../lib/config';
+import { saveResults } from '../lib/results';
+import { BUCKET } from '../lib/config';
 
 const googleCloudStorage = new Storage();
-const firestore = new Firestore({
-  projectId: PROJECT_ID,
-  timestampsInSnapshots: true,
-  ignoreUndefinedProperties: true,
-});
-const collection = firestore.collection(FIRESTORE_COLLECTION);
 
 export { metadataParser } from './metadataParser';
 
@@ -49,11 +43,9 @@ export async function call({ name, processors, tag }: ProcessorOptions): Promise
     return {};
   }
 
-  const res = await collection.add({
+  const res = await saveResults({
     tag,
     name,
-    createdAt: Date.now(),
-    environment: STAGE,
     attributes,
   });
 
