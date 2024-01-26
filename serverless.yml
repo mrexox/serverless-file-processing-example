@@ -40,8 +40,19 @@ functions:
           eventType: google.storage.object.finalize
           resource: projects/${self:provider.project}/buckets/${env:BUCKET}
 
-  # HTTP request-triggered function
+  # HTTP request-triggered functions
+
   parse_metadata:
     handler: parseMetadata
     events:
       - http: parse_metadata
+
+  fetch_results:
+    handler: fetchResults
+    events:
+      - http: fetch_results
+
+  delete_results:
+    handler: deleteResults
+    events:
+      - http: delete_results
